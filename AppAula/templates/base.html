@@ -27,6 +27,17 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Início</a>
                     </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'criar_professor' %}">
+                        <i class="bi bi-person-plus"></i> Novo Professor
+                    </a>
+                    </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'criar_curso' %}">
+                        <i class="bi bi-journal-plus"></i> Novo Curso
+                    </a>
+                    </li>
                     {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'lista_estudantes' %}">Estudantes</a></li> {% endcomment %}
                 </ul>
             </div>

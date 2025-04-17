@@ -14,16 +14,22 @@
         <h1 class="mb-4">Bem-vindo à página inicial!</h1>
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="{% url 'lista_estudantes' %}" class="btn btn-outline-primary w-100">Ir para Estudantes</a>
+                <a href="{% url 'lista_estudantes' %}" class="btn btn-outline-primary w-100">Lista de Estudantes</a>
             </li>
             <li class="list-group-item">
-                <a href="{% url 'criar_estudante' %}" class="btn btn-outline-primary w-100">Criar Novo Estudante</a>  <!-- Link para o formulário -->
+                <a href="{% url 'criar_estudante' %}" class="btn btn-outline-primary w-100">Adicionar Novo Estudante</a>  <!-- Link para o formulário -->
             </li>
             <li class="list-group-item">
-                <a href="{% url 'lista_posts' %}" class="btn btn-outline-primary w-100">Ir para Posts</a>
+                <a href="{% url 'criar_professor' %}" class="btn btn-outline-primary w-100">Adicionar Novo Professor</a>  <!-- Link para o formulário -->
             </li>
             <li class="list-group-item">
-                <a href="{% url 'admin:index' %}" class="btn btn-outline-primary w-100">Ir para Admin</a>
+                <a href="{% url 'criar_curso' %}" class="btn btn-outline-primary w-100">Adicionar Novo Curso</a>  <!-- Link para o formulário -->
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'lista_posts' %}" class="btn btn-outline-primary w-100">Posts</a>
+            </li>
+            <li class="list-group-item">
+                <a href="{% url 'admin:index' %}" class="btn btn-outline-primary w-100">Admin</a>
             </li>
         </ul>
     </div>

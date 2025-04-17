@@ -2,7 +2,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Estudante, Professor, Curso, Entrega, Post
 from django.http import HttpResponse
-from .forms import EstudanteForm, PostForm, PesquisaEstudanteForm
+from .forms import EstudanteForm, PostForm, PesquisaEstudanteForm, ProfessorForm, CursoForm
 
 def index(request):
     return HttpResponse("Olá, bem vindo ao APP Aula!")
@@ -37,18 +37,24 @@ def criar_estudante(request):
             return redirect('lista_estudantes')  # Redireciona para a lista de estudantes
     else:
         form = EstudanteForm()
-        return render(request, 'AppAula/criar_estudante.html', {'form': form})
+        return render(request, "AppAula/form_model.html",
+              {"form": form, "title": "Novo Estudante"})
 
 
 def criar_post(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
-            form.save()  # Salva o novo post no banco de dados
-            return redirect('lista_posts')  # Redireciona para a página de lista de posts
+            form.save()
+            return redirect("lista_posts")
     else:
         form = PostForm()
-    return render(request, 'AppAula/criar_post.html', {'form': form})
+
+    return render(
+        request,
+        "AppAula/form_model.html",     # <<< usa o template genérico
+        {"form": form, "title": "Novo Post"}
+    )
 
 
 def pesquisa_estudante(request):
@@ -63,3 +69,25 @@ def pesquisa_estudante(request):
                 sobrenome__icontains=termo
             )
     return render(request, 'AppAula/pesquisa_estudante.html', {'form': form, 'resultados': resultados})
+
+def criar_professor(request):
+    if request.method == "POST":
+        form = ProfessorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("lista_estudantes")   # ajuste o destino se quiser
+    else:
+        form = ProfessorForm()
+    return render(request, "AppAula/form_model.html",
+                  {"form": form, "title": "Novo Professor"})
+
+def criar_curso(request):
+    if request.method == "POST":
+        form = CursoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("lista_estudantes")
+    else:
+        form = CursoForm()
+    return render(request, "AppAula/form_model.html",
+                  {"form": form, "title": "Novo Curso"})

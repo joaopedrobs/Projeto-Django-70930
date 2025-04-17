@@ -1,5 +1,5 @@
 from django.urls import include, path
-from .views import lista_estudantes, detalhe_estudante, lista_posts, detalhe_post, criar_estudante, criar_post, pesquisa_estudante
+from .views import lista_estudantes, detalhe_estudante, lista_posts, detalhe_post, criar_estudante, criar_post, pesquisa_estudante, criar_professor, criar_curso
 
 
 urlpatterns = [
@@ -10,7 +10,8 @@ urlpatterns = [
     path('estudantes/criar/', criar_estudante, name='criar_estudante'),
     path('posts/criar/', criar_post, name='criar_post'),
     path('pesquisa-estudante/', pesquisa_estudante, name='pesquisa_estudante'),
-
+    path("professores/criar/", criar_professor, name="criar_professor"),
+    path("cursos/criar/", criar_curso, name="criar_curso"),
 ]
 
 
