@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block title %}Início - Estudantes{% endblock %}
+
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Lista de Posts</h1>
+
+
+        {% if posts %}
+            <ul class="list-group">
+                {% for post in posts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'detalhe_post' post.id %}" class="text-decoration-none">
+                            {{ post.titulo }}
+                        </a>
+                        - <span class="badge bg-info">{{ post.get_status_display }}</span>
+                        <br>
+                        <small class="text-muted">Publicado em: {{ post.data_publicacao|date:"d/m/Y H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="alert alert-warning">Nenhum post encontrado.</p>
+        {% endif %}
+        <a href="{% url 'criar_post' %}" class="btn btn-success mb-3">Criar Novo Post</a>
+    </div>
+{% endblock %}
