@@ -1,7 +1,8 @@
 from django import forms
 from .models import Estudante, Post
-from .models import User
+from .models import User, Avatar
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import PasswordChangeForm
 
 class EstudanteForm(forms.ModelForm):
     class Meta:
@@ -52,3 +53,18 @@ class UserRegisterForm(forms.ModelForm):
         if password != password_confirm:
             raise ValidationError('As senhas não coincidem.')
         return password_confirm
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']  
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    class Meta:
+        model = User
+
+class AvatarForm(forms.ModelForm):
+    class Meta:
+        model = Avatar
+        fields = ['imagem']

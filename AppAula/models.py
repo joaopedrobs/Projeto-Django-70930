@@ -49,3 +49,11 @@ class Post(models.Model):
     data_publicacao = models.DateTimeField(auto_now_add=True)
     autor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=1, choices=Status.choices, default=Status.revisao)
+
+class Avatar(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to='avatares', null=True, blank=True)
+
+
+    def __str__(self):
+        return f"{self.user.username} - {self.imagem}"

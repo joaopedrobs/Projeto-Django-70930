@@ -1,16 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Estudante, Professor, Curso, Entrega, Post
+from .models import Estudante, Professor, Curso, Entrega, Post, Avatar
 from django.http import HttpResponse
-from .forms import EstudanteForm, PostForm, PesquisaEstudanteForm, UserRegisterForm
-from django.contrib.auth.decorators import login_required
+from .forms import EstudanteForm, PostForm, PesquisaEstudanteForm, UserRegisterForm, UserUpdateForm, CustomPasswordChangeForm, AvatarForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.contrib import messages  
 from django.contrib.auth import login
+from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
+from django.contrib.auth.decorators import login_required
 
-
-
+# ...existing code...
 
 def index(request):
     return HttpResponse("Olá, bem vindo ao APP Aula!")
@@ -180,3 +181,58 @@ def registro(request):
 
 
     return render(request, 'AppAula/registration.html', {'form': form})
+
+
+@login_required
+def perfil(request):
+    return render(request, 'AppAula/perfil.html', {'user': request.user})
+
+
+
+
+@login_required
+def editar_perfil(request):
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+
+
+        if user_form.is_valid() and password_form.is_valid():
+            user_form.save()
+            password_form.save()
+            update_session_auth_hash(request, request.user)  # Mantém o usuário logado após alteração de senha
+            messages.success(request, "Perfil e senha atualizados com sucesso!")
+            return redirect('perfil')
+        else:
+            messages.error(request, "Por favor, corrija os erros abaixo.")
+    else:
+        user_form = UserUpdateForm(instance=request.user)
+        password_form = CustomPasswordChangeForm(user=request.user)
+
+
+    return render(request, 'AppAula/editar_perfil.html', {
+        'user_form': user_form,
+        'password_form': password_form
+    })
+
+@login_required
+def upload_avatar(request):
+    avatar, created = Avatar.objects.get_or_create(user=request.user)  # Tenta obter ou cria um novo avatar
+
+
+    if request.method == 'POST':
+        form = AvatarForm(request.POST, request.FILES, instance=avatar)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')  # Redireciona para o perfil
+
+
+    else:
+        form = AvatarForm(instance=avatar)
+
+
+    return render(request, 'AppAula/upload_avatar.html', {'form': form})
+
+
+def sobre(request):
+    return render(request, 'AppAula/sobre.html')
