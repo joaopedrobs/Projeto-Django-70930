@@ -22,7 +22,7 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('',           include('AppAula.urls')),
+    path('',           include('blog.urls')),
     path('',        include('home.urls')),
     path('messages/', include('messages_app.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
