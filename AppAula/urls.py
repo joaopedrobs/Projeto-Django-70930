@@ -1,6 +1,6 @@
 from django.urls import include, path
 from .views import lista_estudantes, detalhe_estudante, lista_posts, detalhe_post, criar_estudante, criar_post, pesquisa_estudante, atualizar_post, deletar_post
-from .views import post_list_view, post_detail_view, post_create_view, post_update_view, post_delete_view, registro, perfil, editar_perfil, upload_avatar, sobre
+from .views import post_list_view, post_detail_view, post_create_view, post_update_view, post_delete_view, registro, perfil, editar_perfil, upload_avatar, sobre, PostDetailView, PostListView
 from django.contrib.auth import views as auth_views  
 
 urlpatterns = [
@@ -25,5 +25,6 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('about/', sobre, name='sobre'),
-
+    path('pages/',            PostListView.as_view(),   name='pages_list'),
+    path('pages/<int:pk>/',   PostDetailView.as_view(), name='pages_detail'),
 ]

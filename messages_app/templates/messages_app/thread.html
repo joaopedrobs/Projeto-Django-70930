@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Conversas</h2>
+<div>
+  {% for m in messages %}
+    <p><strong>{{ m.sender.username }}:</strong> {{ m.text }} <small>{{ m.sent_at|date:"d/m/Y H:i" }}</small></p>
+  {% endfor %}
+</div>
+<form method="post">{% csrf_token %}
+  <textarea name="text" rows="3" cols="50"></textarea><br>
+  <button type="submit">Enviar</button>
+</form>
+{% endblock %}

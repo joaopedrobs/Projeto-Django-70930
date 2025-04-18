@@ -10,7 +10,8 @@ from django.contrib.auth import login
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, UserChangeForm
 from django.contrib.auth.decorators import login_required
-
+from django.views.generic import ListView, DetailView
+from .models import Post
 # ...existing code...
 
 def index(request):
@@ -236,3 +237,14 @@ def upload_avatar(request):
 
 def sobre(request):
     return render(request, 'AppAula/sobre.html')
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'AppAula/page_list.html'   # crie o template se quiser
+    context_object_name = 'paginas'
+    ordering = ['-data']
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'AppAula/page_detail.html'  # idem
+    context_object_name = 'pagina'

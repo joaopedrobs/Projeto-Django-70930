@@ -1,4 +1,5 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 
 class Estudante(models.Model):
@@ -45,10 +46,12 @@ class Post(models.Model):
         revisao = 'R', 'Revisao'
         publicado = 'P', 'Publicado'
     titulo = models.CharField(max_length=200)
-    conteudo = models.TextField()
     data_publicacao = models.DateTimeField(auto_now_add=True)
     autor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=1, choices=Status.choices, default=Status.revisao)
+    subtitulo = models.CharField(max_length=200, blank=True)
+    conteudo  = RichTextField()
+    imagem    = models.ImageField(upload_to='posts_images/', blank=True, null=True)
 
 class Avatar(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

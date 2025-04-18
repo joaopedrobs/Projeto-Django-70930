@@ -13,7 +13,7 @@ class EstudanteForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['titulo', 'conteudo', 'autor', 'status']
+        fields = ["titulo", "subtitulo", "conteudo", "imagem", "autor"]
 
 class PesquisaEstudanteForm(forms.Form):
     termo = forms.CharField(

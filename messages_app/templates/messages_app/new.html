@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Nova mensagem</h2>
+<form method="post">{% csrf_token %}
+  <p>Usuário destino: <input name="username"></p>
+  <p>Mensagem: <br><textarea name="text"></textarea></p>
+  <button type="submit">Enviar</button>
+</form>
+{% endblock %}
