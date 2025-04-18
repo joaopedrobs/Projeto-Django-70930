@@ -1,4 +1,3 @@
-# AppAula/urls.py  (substitua tudo)
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (
@@ -13,22 +12,22 @@ urlpatterns = [
 
     # --- BLOG ---
     path("posts/",                 PostListView.as_view(),   name="posts"),
-    path("posts/<int:pk>/",        PostDetailView.as_view(), name="post_detail"),
     path("posts/novo/",            PostCreateView.as_view(), name="post_create"),
+    path("posts/<slug:slug>/",     PostDetailView.as_view(), name="post_detail"),  # ← aqui
     path("posts/<int:pk>/editar/", PostUpdateView.as_view(), name="post_update"),
     path("posts/<int:pk>/excluir/",PostDeleteView.as_view(), name="post_delete"),
 
-    # rota /pages/ (pedido no briefing) aponta para a mesma lista
+    # /pages/ deve apontar para a mesma lista
     path("pages/",  PostListView.as_view(),   name="pages_list"),
     path("pages/<int:pk>/", PostDetailView.as_view(), name="pages_detail"),
 
-    # --- AUTH / PERFIL ---
-    path("registro/",      registro,                         name="registro"),
-    path("login/",         auth_views.LoginView.as_view(),   name="login"),
-    path("logout/",        auth_views.LogoutView.as_view(),  name="logout"),
-    path("perfil/",        perfil,           name="perfil"),
-    path("editar-perfil/", editar_perfil,    name="editar_perfil"),
-    path("editar-avatar/", upload_avatar,    name="editar_avatar"),
+    # --- AUTENTICAÇÃO & PERFIL ---
+    path("registro/",      registro,                       name="registro"),
+    path("login/",         auth_views.LoginView.as_view(), name="login"),
+    path("logout/",        auth_views.LogoutView.as_view(),name="logout"),
+    path("perfil/",        perfil,                         name="perfil"),
+    path("editar-perfil/", editar_perfil,                  name="editar_perfil"),
+    path("editar-avatar/", upload_avatar,                  name="editar_avatar"),
 
     # --- SOBRE ---
     path("about/", AboutView.as_view(), name="about"),

@@ -41,6 +41,9 @@ class PostDetailView(DetailView):
     model = Post
     template_name = "post_detail.html"
     context_object_name = "post"
+    slug_field = "slug"            
+    slug_url_kwarg = "slug"        
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post

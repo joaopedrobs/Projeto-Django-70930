@@ -21,7 +21,7 @@
           <h5 class="card-title">{{ p.titulo }}</h5>
           <p class="card-text small text-muted">{{ p.data_publicacao|date:"d M Y" }}</p>
           <p class="card-text">{{ p.subtitulo|default:p.conteudo|truncatechars:120 }}</p>
-          <a href="{% url 'post_detail' p.pk %}" class="btn btn-primary btn-sm">Ler mais</a>
+          <a href="{% url 'post_detail' p.slug %}" class="btn btn-primary btn-sm">Ler mais</a>
         </div>
       </div>
     </div>

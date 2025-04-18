@@ -1,16 +1,41 @@
+{# blog/templates/post_detail.html #}
 {% extends "base.html" %}
+
 {% block title %}{{ post.titulo }}{% endblock %}
 
 {% block content %}
 <article class="mb-5">
   <h1>{{ post.titulo }}</h1>
-  <p class="text-muted">{{ post.data_publicacao|date:"d M Y" }} • por {{ post.autor }}</p>
-  {% if post.imagem %}<img src="{{ post.imagem.url }}" class="img-fluid mb-4" alt="{{ post.titulo }}">{% endif %}
-  {{ post.conteudo|safe }}
+  <p class="text-muted">
+    {{ post.data_publicacao|date:"d M Y" }} • por {{ post.autor.username }}
+  </p>
+
+  {% if post.imagem %}
+    <img src="{{ post.imagem.url }}"
+         class="img-fluid mb-4"
+         alt="{{ post.titulo }}">
+  {% endif %}
+
+  <div>
+    {{ post.conteudo|safe }}
+  </div>
+
   {% if user.is_authenticated and user == post.autor %}
-    <a href="{% url 'post_update' post.pk %}" class="btn btn-warning me-2">Editar</a>
-    <a href="{% url 'post_delete' post.pk %}" class="btn btn-danger">Excluir</a>
-{% endif %}
+    <div class="mt-4">
+      <a href="{% url 'post_update' post.pk %}"
+         class="btn btn-warning me-2">
+        Editar
+      </a>
+      <a href="{% url 'post_delete' post.pk %}"
+         class="btn btn-danger">
+        Excluir
+      </a>
+    </div>
+  {% endif %}
 </article>
-<a href="{% url 'posts' %}" class="btn btn-outline-secondary">← Voltar</a>
+
+<a href="{% url 'posts' %}"
+   class="btn btn-outline-secondary">
+  ← Voltar
+</a>
 {% endblock %}
