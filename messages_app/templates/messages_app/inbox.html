@@ -1,20 +1,22 @@
 {% extends "base.html" %}
+
+{% block title %}Inbox{% endblock %}
+
 {% block content %}
-<h2>Minhas Conversas</h2>
-{% if threads %}
-  <ul>
-    {% for t in threads %}
-      {% if t.user1 == request.user %}
-        {% with other=t.user2 %}
-      {% else %}
-        {% with other=t.user1 %}
-      {% endif %}
-      <li><a href="{% url 'messages_app:thread_detail' t.pk %}">Conversa com {{ other.username }}</a></li>
-      {% endwith %}
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>Você ainda não possui mensagens.</p>
-{% endif %}
-<a href="{% url 'messages_app:new' %}">Nova mensagem</a>
+<h2>Minhas Conversas – Teste Simplificado</h2>
+<ul>
+  {% for t in threads %}
+    <li>
+      <a href="{% url 'messages_app:thread_detail' t.pk %}">
+        Conversa #{{ t.pk }}: {{ t.user1.username }} & {{ t.user2.username }}
+      </a>
+    </li>
+  {% empty %}
+    <li>Nenhuma conversa disponível.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'messages_app:new' %}" class="btn btn-primary mt-3">
+  Iniciar Nova Conversa
+</a>
 {% endblock %}

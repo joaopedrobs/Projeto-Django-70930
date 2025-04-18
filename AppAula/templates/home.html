@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Blog de IA{% endblock %}
+
+{% block content %}
+<section class="text-center my-5">
+  <h1 class="display-4 mb-3">Blog de Inteligência Artificial</h1>
+  <p class="lead mb-5">Posts mais recentes</p>
+
+  <div class="row justify-content-center">
+    {% for p in posts %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if p.imagem %}
+            <img src="{{ p.imagem.url }}" class="card-img-top" alt="{{ p.titulo }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ p.titulo }}</h5>
+            <p class="card-text small text-muted">{{ p.data_publicacao|date:"d M Y" }}</p>
+            <p class="card-text">{{ p.subtitulo|default:p.conteudo|truncatechars:120 }}</p>
+            <a href="{% url 'post_detail' p.pk %}" class="btn btn-primary btn-sm">Ler mais</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Ainda não há posts.</p>
+    {% endfor %}
+  </div>
+
+  <a href="{% url 'posts' %}" class="btn btn-outline-primary">Ver todos os posts</a>
+</section>
+{% endblock %}

@@ -1,17 +1,13 @@
 from django.contrib import admin
-from .models import Estudante, Professor, Curso, Entrega, Post
+from .models import Post, Avatar   # só o que existe
 
-
-admin.site.register(Estudante)
-admin.site.register(Professor)
-admin.site.register(Curso)
-admin.site.register(Entrega)
-# admin.site.register(Post)
 @admin.register(Post)
-
-
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['titulo', 'autor', 'status', 'data_publicacao']
-    list_filter = [ 'autor', 'status']
-    raw_id_fields = ['autor']
-    ordering = ['-data_publicacao']
+    list_display = ("titulo", "autor", "data_publicacao", "status")
+    list_filter  = ("status", "data_publicacao")
+    search_fields = ("titulo", "conteudo")
+    ordering = ("-data_publicacao",)
+
+@admin.register(Avatar)
+class AvatarAdmin(admin.ModelAdmin):
+    list_display = ("user",)

@@ -1,70 +1,45 @@
 from django import forms
-from .models import Estudante, Post
-from .models import User, Avatar
-from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 
-class EstudanteForm(forms.ModelForm):
-    class Meta:
-        model = Estudante
-        fields = ['nome', 'sobrenome', 'email']
+from .models import Post, Avatar
 
+# ---------- POSTS ----------
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ["titulo", "subtitulo", "conteudo", "imagem", "autor"]
+        fields = ("titulo", "subtitulo", "conteudo", "imagem", "status")
 
-class PesquisaEstudanteForm(forms.Form):
-    termo = forms.CharField(
-        label="Pesquisar estudante",
-        max_length=100,
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Digite um nome ou sobrenome'})
-    )
-
+# ---------- USER / PERFIL ----------
 
 class UserRegisterForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
-
+    password  = forms.CharField(widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirme a senha", widget=forms.PasswordInput)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model  = User
+        fields = ("username", "email", "first_name", "last_name")
 
+    def clean(self):
+        cleaned = super().clean()
+        if cleaned.get("password") != cleaned.get("password2"):
+            self.add_error("password2", "As senhas não coincidem")
+        return cleaned
 
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        if len(password) < 8:
-            raise ValidationError('A senha deve ter pelo menos 8 caracteres.')
-        if not any(char.isdigit() for char in password):
-            raise ValidationError('A senha deve conter pelo menos um número.')
-        if not any(char.isupper() for char in password):
-            raise ValidationError('A senha deve conter pelo menos uma letra maiúscula.')
-        return password
+class UserUpdateForm(UserChangeForm):
+    password = None  # oculta campo senha
 
-
-    def clean_password_confirm(self):
-        password = self.cleaned_data.get('password')
-        password_confirm = self.cleaned_data.get('password_confirm')
-
-
-        if password != password_confirm:
-            raise ValidationError('As senhas não coincidem.')
-        return password_confirm
-
-class UserUpdateForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email']  
-
+        model  = User
+        fields = ("email", "first_name", "last_name")
 
 class CustomPasswordChangeForm(PasswordChangeForm):
-    class Meta:
-        model = User
+    pass
+
+# ---------- AVATAR ----------
 
 class AvatarForm(forms.ModelForm):
     class Meta:
-        model = Avatar
-        fields = ['imagem']
+        model  = Avatar
+        fields = ("imagem",)

@@ -1,52 +1,89 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-{% if messages %}
-    <div class="alert alert-success">
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
+{% extends "base.html" %}
+
+{% block title %}Blog de IA{% endblock %}
+
+{% block extra_head %}
+<style>
+  .hero {
+    background: url('https://source.unsplash.com/1600x400/?ai,technology') no-repeat center center;
+    background-size: cover;
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <section class="hero mb-5">
+    <div class="container">
+      <h1>Blog de Inteligência Artificial</h1>
+      <p class="lead">Últimas novidades, tutoriais e insights em IA</p>
     </div>
-{% endif %}
-<body class="bg-light">
+  </section>
 
-
-    <div class="container text-center mt-5">
-        <h1 class="mb-4">Bem-vindo à página inicial!</h1>
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{% url 'perfil' %}" class="btn btn-outline-primary w-100">Meu Perfil</a>
-            </li>
-
-            <li class="list-group-item">
-                <a href="{% url 'lista_estudantes' %}" class="btn btn-outline-primary w-100">Ir para Estudantes</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'criar_estudante' %}" class="btn btn-outline-primary w-100">Criar Novo Estudante</a>  <!-- Link para o formulário -->
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'lista_posts' %}" class="btn btn-outline-primary w-100">Ir para Posts</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'lista_posts_cvb' %}" class="btn btn-outline-primary w-100">Ir para Posts CVB</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'registro' %}" class="btn btn-outline-primary w-100">Registrar Novo Usuário</a>
-            </li>
-            <li class="list-group-item">
-                <a href="{% url 'admin:index' %}" class="btn btn-outline-primary w-100">Ir para Admin</a>
-            </li>
-        </ul>
+  <!-- Main Navigation Cards -->
+  <div class="container mb-5">
+    <div class="row gy-4">
+      <div class="col-md-3">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title">Estudantes</h5>
+            <p class="card-text">Lista e cadastro de estudantes</p>
+            <a href="{% url 'lista_estudantes' %}" class="btn btn-outline-primary">Ver Estudantes</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title">Posts (FBV)</h5>
+            <p class="card-text">Artigos do blog usando funções</p>
+            <a href="{% url 'lista_posts' %}" class="btn btn-outline-primary">Ver Posts</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title">Posts (CBV)</h5>
+            <p class="card-text">Artigos do blog usando classes</p>
+            <a href="{% url 'lista_posts_cvb' %}" class="btn btn-outline-primary">Ver Posts CVB</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <h5 class="card-title">Páginas</h5>
+            <p class="card-text">Conteúdo de páginas estáticas</p>
+            <a href="{% url 'pages_list' %}" class="btn btn-outline-primary">Ver Páginas</a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
+  <!-- User Actions -->
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        {% if user.is_authenticated %}
+          <a href="{% url 'perfil' %}" class="btn btn-success me-2">Meu Perfil</a>
+          <form action="{% url 'logout' %}" method="post" class="d-inline">{% csrf_token %}
+            <button type="submit" class="btn btn-danger">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-primary me-2">Entrar</a>
+          <a href="{% url 'registro' %}" class="btn btn-outline-primary">Registrar</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
